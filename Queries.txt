@@ -1,0 +1,111 @@
+1)	Εμφάνιση των πελατών με ηλικία από 20 μέχρι 30.
+
+
+SELECT *
+FROM customers
+WHERE age BETWEEN 20 AND 30
+
+
+
+2)	Εμφάνιση των πελατών με ηλικία από 20 μέχρι 30, ταξινομημένοι κατά το επίθετο τους.
+	
+
+SELECT 		*
+FROM 		customers
+WHERE 		age BETWEEN 20 AND 30
+ORDER BY 	last_name
+
+
+
+3)	Εμφάνιση όλων των παραγγελιών από 01/04/2016 μέχρι 30/04/2016.
+
+
+SELECT 	last_name, first_name, order_date ,order_price
+FROM 	customers, orders
+WHERE 	order_date BETWEEN '2016-04-01' AND '2016-04-30' AND  
+	orders.customer_id = customers.customer_id
+
+
+
+4)	Εμφάνιση όλων των παραγγελιών από 01/04/2016 μέχρι 30/04/2016, ταξινομημένων κατά το επίθετο των πελατών.
+
+
+SELECT 		last_name, first_name, order_date ,order_price
+FROM 		customers, orders
+WHERE 		order_date BETWEEN '2016-04-01' AND '2016-04-30' AND 
+		orders.customer_id = customers.customer_id
+ORDER BY 	last_name
+
+
+
+5)	Εμφάνιση όλων των παραγγελιών ενός συγκεκριμένου πελάτη του “Stephen Love”, ταξινομημένων ημερολογιακά.
+
+
+SELECT 		last_name, first_name, order_date ,order_price, payment_method
+FROM 		customers, orders
+WHERE 		last_name = 'Love' AND 
+		first_name = 'Stephen' AND 
+		orders.customer_id = customers.customer_id
+ORDER BY 	order_date
+
+
+
+6)	Εμφάνιση της ποσότητας των διαφορετικών προϊόντων, μιας συγκεκριμένης παραγγελίας, ενός συγκεκριμένου πελάτη του “Stephen Love”, ταξινομημένων κατά τον κωδικό των προϊόντων.
+
+
+SELECT 		last_name, first_name, order_date ,order_price, payment_method,
+		product_quantity, product_id
+FROM 		customers, orders, order_details
+WHERE 		last_name = 'Love' AND 
+		first_name = 'Stephen' AND 
+		order_date = '2016-05-13 07:31:00' AND 
+		orders.customer_id = customers.customer_id AND 
+		orders.order_id = order_details.order_id
+ORDER BY 	product_id
+
+
+
+7)	Αναλυτική εμφάνιση των προϊόντων του ερωτήματος 6, ταξινομημένων κατά το όνομα των προϊόντων.
+
+
+SELECT 		last_name, first_name, order_date, product_name, product_type, 
+		product_quantity, product_price
+FROM 		customers, orders, order_details, products
+WHERE 		last_name = 'Love' AND 
+		first_name = 'Stephen' AND 
+		order_date = '2016-05-13 07:31:00' AND 
+		orders.customer_id = customers.customer_id AND 
+		orders.order_id = order_details.order_id AND 
+		order_details.product_id = products.product_id
+ORDER BY 	product_name
+
+
+
+8)	Εμφάνιση των καταστημάτων στα οποία υπάρχουν τα προϊόντα του ερωτήματος 7, ταξινομημένων κατά το όνομα των προϊόντων.
+
+
+SELECT 		last_name, first_name, order_date, product_name, product_type, 
+		product_quantity, product_price, shop_name, quantity
+FROM 		customers, orders, order_details, products, stock
+WHERE 		last_name = 'Love' AND 
+		first_name = 'Stephen' AND 
+		order_date = '2016-05-13 07:31:00' AND 
+		orders.customer_id =  customers.customer_id AND 
+		orders.order_id = order_details.order_id AND 
+		order_details.product_id = products.product_id AND 
+		products.product_id = stock.product_id
+ORDER BY	 product_name
+
+
+
+
+9)	Αναζήτηση των προϊόντων που προτιμούν τα άτομα με ηλικίες από 20 έως 30.
+
+
+SELECT DISTINCT	product_name, product_type, product_price
+FROM 		customers, orders, order_details, products
+WHERE 		age BETWEEN 20 AND 30 AND 
+		orders.customer_id = customers.customer_id AND 
+		orders.order_id = order_details.order_id AND 
+		order_details.product_id = products.product_id
+ORDER BY 	product_name

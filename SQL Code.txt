@@ -1,0 +1,107 @@
+CREATE DATABASE "George"
+  WITH OWNER = postgres
+       ENCODING = 'UTF8'
+       TABLESPACE = pg_default
+       LC_COLLATE = 'Greek_Greece.1253'
+       LC_CTYPE = 'Greek_Greece.1253'
+       CONNECTION LIMIT = -1;
+
+
+
+
+CREATE TABLE public.customers
+(
+  customer_id integer NOT NULL,
+  first_name character varying(20),
+  last_name character varying(40),
+  address character varying(100),
+  phone character varying(30),
+  email character varying(50),
+  country character varying(40),
+  credit_card_type character varying(50),
+  credit_card_number character varying(30),
+  username character varying(20),
+  postal_code character varying(20),
+  age integer,
+  CONSTRAINT "Customers_pkey" PRIMARY KEY (customer_id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.customers
+  OWNER TO postgres;
+
+
+
+
+CREATE TABLE public.order_details
+(
+  product_id integer,
+  order_id integer,
+  product_quantity integer,
+  CONSTRAINT "Order_Details_Product_ID_fkey" FOREIGN KEY (product_id)
+      REFERENCES public.products (product_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.order_details
+  OWNER TO postgres;
+
+
+
+
+CREATE TABLE public.orders
+(
+  order_id integer NOT NULL,
+  customer_id integer,
+  order_price integer,
+  order_date timestamp without time zone,
+  payment_method character varying(30),
+  CONSTRAINT orders_pkey PRIMARY KEY (order_id),
+  CONSTRAINT orders_customer_id_fkey FOREIGN KEY (customer_id)
+      REFERENCES public.customers (customer_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.orders
+  OWNER TO postgres;
+
+
+
+
+CREATE TABLE public.products
+(
+  product_id integer NOT NULL,
+  product_name character varying(100),
+  product_type character varying(50),
+  product_price integer,
+  CONSTRAINT "Products_pkey" PRIMARY KEY (product_id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.products
+  OWNER TO postgres;
+
+
+
+
+CREATE TABLE public.stock
+(
+  product_id integer,
+  quantity integer,
+  shop_no integer,
+  shop_name character varying(50),
+  CONSTRAINT "Stock_Product_ID_fkey" FOREIGN KEY (product_id)
+      REFERENCES public.products (product_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.stock
+  OWNER TO postgres;

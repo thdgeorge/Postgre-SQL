@@ -1,0 +1,64 @@
+CREATE INDEX customers_customer_id_idx
+  ON public.customers
+  USING btree
+  (customer_id);
+
+
+CREATE INDEX customers_age_idx
+  ON public.customers
+  USING btree
+  (age);
+
+
+CREATE INDEX customers_last_name_idx
+  ON public.customers
+  USING btree
+  (last_name COLLATE pg_catalog."default");
+
+
+CREATE INDEX orders_customer_id_idx
+  ON public.orders
+  USING btree
+  (customer_id);
+
+
+CREATE INDEX orders_order_date_idx
+  ON public.orders
+  USING btree
+  (order_date);
+
+
+CREATE INDEX orders_order_id_idx
+  ON public.orders
+  USING btree
+  (order_id);
+
+
+CREATE INDEX order_details_order_id_idx
+  ON public.order_details
+  USING btree
+  (order_id);
+
+
+CREATE INDEX order_details_product_id_idx
+  ON public.order_details
+  USING btree
+  (product_id);
+
+
+CREATE INDEX products_product_id_idx
+  ON public.products
+  USING btree
+  (product_id);
+
+
+CREATE INDEX products_product_name_idx
+  ON public.products
+  USING btree
+  (product_name COLLATE pg_catalog."default");
+
+
+CREATE INDEX stock_product_id_idx
+  ON public.stock
+  USING btree
+  (product_id);
